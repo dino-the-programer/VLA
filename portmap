@@ -1,0 +1,10 @@
+winget install usbipd
+
+usbipd list
+usbipd bind -b 5-1
+usbipd attach --wsl -b 5-1
+
+
+------
+wsl
+modprobe cp210x

@@ -1,0 +1,86 @@
+services:
+  # backendMysqlDB:
+  #   image: mysql:8.3.0
+  #   restart: unless-stopped
+  #   container_name: databaseMYSQL
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: 123
+  #   ports:
+  #     - "3306:3306"
+  #   volumes:
+  #     - mysqlDB:/var/lib/mysql
+  #     - ./mysqlDB/mysql-config:/etc/mysql/conf.d
+  #     - ./mysqlDB/initdb:/docker-entrypoint-initdb.d
+  #   networks:
+  #     - databaseNetwork
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rbmq
+    ports:
+      - "5672:5672" # Standard AMQP port
+      - "15672:15672" # Management UI port
+    environment:
+      # Default credentials (change for production)
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+      # Optional: define a specific virtual host
+      RABBITMQ_DEFAULT_VHOST: /
+    volumes:
+      # Persist data to a named volume on the host
+      - 'rabbitmq_data:/var/lib/rabbitmq/mnesia'
+      # Optional: persist logs
+      - 'rabbitmq_logs:/var/log/rabbitmq'
+
+  ap-comm:
+    container_name: APcomm
+    restart: unless-stopped
+    tty: true
+    build: 
+      context: APcomm
+    volumes:
+      - ./APcomm:/app
+    # isolation: process
+    # devices:
+    #   # Use "class-forwardslash-{GUID}" format
+    #   - "class/{86E0D1E0-8089-11D0-9CE4-08003E301F73}"
+    devices:
+      - /dev/ttyUSB0
+
+    # environment:
+      # ALLOWEDHOSTS: 'http://localhost:5173'
+      # MYSQLHOST: databaseMYSQL
+    # networks:
+      # - databaseNetwork
+      # - backendNetwork
+    # depends_on:
+    #   - backendMysqlDB
+    # command: ["python3", "-m", "uvicorn", "main:app", "--host=0.0.0.0"]
+    command: ["python3", "main.py"]
+
+  # nginx:
+  #     image: nginx:latest
+  #     container_name: deploy_nginx
+  #     volumes:
+  #       - ./ningxConf/nginx.conf:/etc/nginx/conf.d/default.conf
+  #       - ./frontendAppStatic:/var/www/dist
+  #     ports:
+  #       - 80:80
+  #       - 443:443
+  #     networks:
+  #     - backendNetwork
+  #     depends_on:
+  #     - primary-backend-app
+
+# volumes:
+  # mysqlDB:
+
+volumes:
+  rabbitmq_data:
+  rabbitmq_logs:
+
+# networks:
+  # databaseNetwork:
+  #   driver: bridge
+  # backendNetwork:
+  #   driver: bridge
