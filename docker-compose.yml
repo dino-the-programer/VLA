@@ -58,6 +58,22 @@ services:
     # command: ["python3", "-m", "uvicorn", "main:app", "--host=0.0.0.0"]
     command: ["python3", "main.py"]
 
+  ap-direct:
+    container_name: APdirect
+    restart: unless-stopped
+    tty: true
+    build: 
+      context: APdirect
+    volumes:
+      - ./APdirect:/app
+    # isolation: process
+    # devices:
+    #   # Use "class-forwardslash-{GUID}" format
+    #   - "class/{86E0D1E0-8089-11D0-9CE4-08003E301F73}"
+    devices:
+      - /dev/ttyUSB0
+    command: ["python3", "main.py"]
+
   # nginx:
   #     image: nginx:latest
   #     container_name: deploy_nginx
