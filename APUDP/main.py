@@ -77,7 +77,6 @@ def handleCommands():
                 client.connected = True
                 print(f"{client.addr} connected")
 
-
 def handleTelemetry():
     while True:
         msgbyte = telemetryQueue.get()[0]
