@@ -1,0 +1,9 @@
+ffmpeg -re -f dshow -i video="Integrated Camera" -filter_complex "[0:v]crop=iw/4:ih/2:0:0[t1];[0:v]crop=iw/4:ih/2:iw/4:0[t2];[0:v]crop=iw/4:ih/2:iw/2:0[t3];[0:v]crop=iw/4:ih/2:3*iw/4:0[t4];[0:v]crop=iw/4:ih/2:0:ih/2[t5];[0:v]crop=iw/4:ih/2:iw/4:ih/2[t6];[0:v]crop=iw/4:ih/2:iw/2:ih/2[t7];[0:v]crop=iw/4:ih/2:3*iw/4:ih/2[t8]" ^
+-map "[t1]" -c:v libx264 -preset ultrafast -tune zerolatency -g 30 -keyint_min 30 -x264opts repeat-headers=1 -bsf:v h264_mp4toannexb -f mpegts udp://127.0.0.1:5000?pkt_size=1316 ^
+-map "[t2]" -c:v libx264 -preset ultrafast -tune zerolatency -g 30 -keyint_min 30 -x264opts repeat-headers=1 -bsf:v h264_mp4toannexb -f mpegts udp://127.0.0.1:5001?pkt_size=1316 ^
+-map "[t3]" -c:v libx264 -preset ultrafast -tune zerolatency -g 30 -keyint_min 30 -x264opts repeat-headers=1 -bsf:v h264_mp4toannexb -f mpegts udp://127.0.0.1:5002?pkt_size=1316 ^
+-map "[t4]" -c:v libx264 -preset ultrafast -tune zerolatency -g 30 -keyint_min 30 -x264opts repeat-headers=1 -bsf:v h264_mp4toannexb -f mpegts udp://127.0.0.1:5003?pkt_size=1316 ^
+-map "[t5]" -c:v libx264 -preset ultrafast -tune zerolatency -g 30 -keyint_min 30 -x264opts repeat-headers=1 -bsf:v h264_mp4toannexb -f mpegts udp://127.0.0.1:5004?pkt_size=1316 ^
+-map "[t6]" -c:v libx264 -preset ultrafast -tune zerolatency -g 30 -keyint_min 30 -x264opts repeat-headers=1 -bsf:v h264_mp4toannexb -f mpegts udp://127.0.0.1:5005?pkt_size=1316 ^
+-map "[t7]" -c:v libx264 -preset ultrafast -tune zerolatency -g 30 -keyint_min 30 -x264opts repeat-headers=1 -bsf:v h264_mp4toannexb -f mpegts udp://127.0.0.1:5006?pkt_size=1316 ^
+-map "[t8]" -c:v libx264 -preset ultrafast -tune zerolatency -g 30 -keyint_min 30 -x264opts repeat-headers=1 -bsf:v h264_mp4toannexb -f mpegts udp://127.0.0.1:5007?pkt_size=1316
