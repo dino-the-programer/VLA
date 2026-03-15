@@ -8,6 +8,7 @@ UDP_PORT = 5005
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 cap = cv2.VideoCapture(0)
+cap
 
 while True:
     ret, frame = cap.read()
